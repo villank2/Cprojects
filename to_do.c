@@ -17,51 +17,65 @@ struct qNode{
 	struct qNode *next;
 };
 
-struct qNode *first = NULL;
-struct qNode *last = NULL;
+struct qNode *first = NULL;//where we dequeue
+struct qNode *last = NULL; // pointer that constantly points to the newest node
 
-void put(struct GenType);
-void show();
-void get();
+void enq(struct GenType);
+void deq();
+void show(struct qNode*);
 void main(){
 
 	struct GenType task;
 	task.date = 12;
 	struct GenType event;
 	event.date = 13;
-	put(task);
-	show();
-	put(event);
-	show();
+	enq(task);
+	enq(event);
+	enq(event);
+	struct GenType event1;
+	enq(event1);
+	deq();
+	deq();
 
+	
 };
 
-void put(struct GenType item){
-	struct qNode *n = malloc(sizeof(struct qNode));
+void enq(struct GenType item){
+	struct qNode *n = (struct qNode*)malloc(sizeof(struct qNode));
 	n -> value = item;
 	n -> next = NULL;
-	if(first==NULL){
-		first = n;
-		first -> next = last;
+	if(first==NULL && last==NULL){
+		first = last = n;
 	}else{
-		struct qNode *tmp = last;
-		last = n;
-		last -> next = tmp;
+		last -> next = last;
+		last = n; 
+		 
 	}
 }
 
-void show(){
-	struct GenType x;
-	if(last==NULL){
-		x = first->value;
+void deq(){
+	
 
+	if(first==NULL){
+		printf("empty");
+		return;
+	}
+	if(first==last){
+		first=last=NULL;
 	}else{
-		x = last->value;	
+		struct qNode* tmp = first;
+		first = first->next;
+		show(tmp);
+		
 	}
 	
-	printf("%d\n", x.date);
+	
+	
+
 }
 
-void get(){
-	if
+void show(struct qNode *node){
+	struct GenType tmpx = node -> value;
+	printf("%d\n",tmpx.date);
+	
 }
